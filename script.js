@@ -113,7 +113,7 @@ class CelestialObject {
         this.type = type;
         this.mass = mass;
         this.radius = this.getRadius();
-        
+
         this.body = Bodies.circle(x, y, this.radius, {
             density: mass,
             friction: 0.1,
@@ -122,12 +122,12 @@ class CelestialObject {
                 fillStyle: '#0f0'
             }
         });
-        
+
         World.add(world, this.body);
     }
 
     getRadius() {
-        switch(this.type) {
+        switch (this.type) {
             case 'small-planet': return 15;
             case 'medium-planet': return 25;
             case 'large-planet': return 35;
@@ -135,19 +135,19 @@ class CelestialObject {
             default: return 20;
         }
     }
-    
+
     draw() {
         const pos = this.body.position;
         ctx.beginPath();
         ctx.arc(pos.x, pos.y, this.radius, 0, Math.PI * 2);
-        
+
         if (this.type === 'blackhole') {
             ctx.fillStyle = '#000';
             ctx.strokeStyle = '#0f0';
             ctx.lineWidth = 2;
             ctx.fill();
             ctx.stroke();
-            
+
             // Draw black hole effect
             const gradient = ctx.createRadialGradient(
                 pos.x, pos.y, this.radius,
@@ -167,7 +167,7 @@ class CelestialObject {
         const dx = otherObject.body.position.x - this.body.position.x;
         const dy = otherObject.body.position.y - this.body.position.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        
+
         if (distance < this.radius + otherObject.radius) {
             if (this.type === 'blackhole') {
                 World.remove(world, otherObject.body);
@@ -175,15 +175,15 @@ class CelestialObject {
             }
             return false;
         }
-        
+
         const force = (this.mass * otherObject.mass) / (distance * distance);
         const angle = Math.atan2(dy, dx);
-        
+
         Body.applyForce(otherObject.body, otherObject.body.position, {
             x: Math.cos(angle) * force * 0.0001,
             y: Math.sin(angle) * force * 0.0001
         });
-        
+
         return false;
     }
 }
@@ -212,7 +212,7 @@ canvas.addEventListener('drop', (e) => {
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
+
         const newObject = new CelestialObject(x, y, draggedObject.type, draggedObject.mass);
         objects.push(newObject);
         draggedObject = null;
@@ -222,18 +222,18 @@ canvas.addEventListener('drop', (e) => {
 // Animation loop
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
     // Update physics
     Engine.update(engine, 1000 / 60);
-    
+
     // Update and draw grid
     grid.updateGrid(objects);
     grid.draw();
-    
+
     // Draw objects and handle interactions
     objects.forEach((obj, index) => {
         obj.draw();
-        
+
         // Handle gravitational interactions
         for (let i = objects.length - 1; i >= 0; i--) {
             if (i !== index) {
@@ -244,7 +244,7 @@ function animate() {
             }
         }
     });
-    
+
     requestAnimationFrame(animate);
 }
 
