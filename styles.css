@@ -1,0 +1,141 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+#spaceTimeCanvas {
+    flex: 1;
+    background-color: #000;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-left: 2px solid #0f0;
+    overflow-y: auto;
+}
+
+h2 {
+    color: #0f0;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+h3 {
+    color: #0f0;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+.object {
+    background-color: rgba(0, 255, 0, 0.1);
+    border: 2px solid #0f0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    cursor: move;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+}
+
+.object:hover {
+    background-color: rgba(0, 255, 0, 0.2);
+}
+
+.object-info {
+    flex: 1;
+}
+
+.planet-icon {
+    width: 30px;
+    height: 30px;
+    background-color: #0f0;
+    border-radius: 50%;
+}
+
+.planet-icon.small {
+    width: 20px;
+    height: 20px;
+}
+
+.planet-icon.medium {
+    width: 30px;
+    height: 30px;
+}
+
+.planet-icon.large {
+    width: 40px;
+    height: 40px;
+}
+
+.blackhole-icon {
+    width: 30px;
+    height: 30px;
+    background-color: #000;
+    border: 2px solid #0f0;
+    border-radius: 50%;
+    position: relative;
+}
+
+.blackhole-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 15px;
+    height: 15px;
+    background-color: #0f0;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.5; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.instructions {
+    margin-top: 30px;
+    padding: 15px;
+    background-color: rgba(0, 255, 0, 0.05);
+    border: 1px solid #0f0;
+    border-radius: 8px;
+}
+
+.instructions ul {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+.instructions li {
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.instructions li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #0f0;
+} 

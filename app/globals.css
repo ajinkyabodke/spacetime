@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000;
+    color: #0f0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+#spaceTimeCanvas {
+    flex: 1;
+    background-color: #000;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-left: 2px solid #0f0;
+}
+
+h2 {
+    color: #0f0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.object {
+    background-color: rgba(0, 255, 0, 0.1);
+    border: 2px solid #0f0;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: move;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.object:hover {
+    background-color: rgba(0, 255, 0, 0.2);
+}
+
+.planet-icon {
+    width: 20px;
+    height: 20px;
+    background-color: #0f0;
+    border-radius: 50%;
+}
+
+.blackhole-icon {
+    width: 20px;
+    height: 20px;
+    background-color: #000;
+    border: 2px solid #0f0;
+    border-radius: 50%;
+    position: relative;
+}
+
+.blackhole-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: #0f0;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.5; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+} 

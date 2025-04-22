@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space-Time Fabric Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <canvas id="spaceTimeCanvas"></canvas>
+        <div class="sidebar">
+            <h2>Celestial Objects</h2>
+            
+            <div class="object" draggable="true" data-type="small-planet" data-mass="1">
+                <div class="planet-icon small"></div>
+                <div class="object-info">
+                    <h3>Small Planet</h3>
+                    <p>Mass: 1</p>
+                </div>
+            </div>
+            
+            <div class="object" draggable="true" data-type="medium-planet" data-mass="2">
+                <div class="planet-icon medium"></div>
+                <div class="object-info">
+                    <h3>Medium Planet</h3>
+                    <p>Mass: 2</p>
+                </div>
+            </div>
+            
+            <div class="object" draggable="true" data-type="large-planet" data-mass="3">
+                <div class="planet-icon large"></div>
+                <div class="object-info">
+                    <h3>Large Planet</h3>
+                    <p>Mass: 3</p>
+                </div>
+            </div>
+            
+            <div class="object" draggable="true" data-type="blackhole" data-mass="5">
+                <div class="blackhole-icon"></div>
+                <div class="object-info">
+                    <h3>Black Hole</h3>
+                    <p>Mass: 5</p>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3>Instructions</h3>
+                <ul>
+                    <li>Drag objects onto the fabric</li>
+                    <li>Watch how they bend space-time</li>
+                    <li>Objects will interact based on physics</li>
+                    <li>Black holes will consume nearby objects</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
