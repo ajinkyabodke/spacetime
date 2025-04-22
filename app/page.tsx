@@ -12,6 +12,18 @@ interface GridPoint {
   originalY: number;
 }
 
+interface PlanetProperties {
+  color: number;
+  mass: number;
+  radius: number;
+  emissiveIntensity: number;
+}
+
+interface BlackHoleProperties extends PlanetProperties {
+  glowColor: number;
+  glowSize: number;
+}
+
 interface CelestialObject {
   id: number;
   type: "planet" | "blackHole";
@@ -148,15 +160,20 @@ function CelestialObject({
       mass: 1,
       radius: 1,
       emissiveIntensity: 0.5,
-    },
+    } as PlanetProperties,
     blackHole: {
-      color: 0x000000,
+      color: 0x000000, // Pure black
       mass: 3,
       radius: 2,
-      emissiveIntensity: 2.0,
-    },
+      emissiveIntensity: 0.2,
+      glowColor: 0x000000, // Very dark gray glow
+      glowSize: 0.3, // Smaller glow size
+    } as BlackHoleProperties,
   };
-  const props = properties[type] || properties.planet;
+
+  const props = properties[type];
+  const isBlackHole = type === "blackHole";
+  const blackHoleProps = isBlackHole ? (props as BlackHoleProperties) : null;
 
   // Helper: sample the plane geometry at (x,z) to get the actual Y
   const getPlaneY = (x: number, z: number): number => {
@@ -188,7 +205,15 @@ function CelestialObject({
     if (!meshRef.current) return;
     const [x, , z] = position;
     const planeY = getPlaneY(x, z);
-    meshRef.current.position.set(x, planeY + props.radius, z);
+
+    // Position depends on object type
+    if (isBlackHole) {
+      // Black holes should appear below the fabric
+      meshRef.current.position.set(x, planeY - props.radius * 0.5, z);
+    } else {
+      // Planets should appear above the fabric
+      meshRef.current.position.set(x, planeY + props.radius, z);
+    }
   });
 
   const bind = useGesture(
@@ -264,12 +289,31 @@ function CelestialObject({
         <sphereGeometry args={[props.radius, 32, 32]} />
         <meshStandardMaterial
           color={props.color}
-          emissive={type === "blackHole" ? 0x222222 : props.color}
+          emissive={
+            isBlackHole && blackHoleProps
+              ? blackHoleProps.glowColor
+              : props.color
+          }
           emissiveIntensity={props.emissiveIntensity}
-          metalness={type === "blackHole" ? 1.0 : 0.5}
-          roughness={type === "blackHole" ? 0.0 : 0.5}
+          metalness={isBlackHole ? 1.0 : 0.5}
+          roughness={isBlackHole ? 0.0 : 0.5}
         />
       </mesh>
+
+      {/* Glow effect for black holes */}
+      {isBlackHole && blackHoleProps && (
+        <mesh position={[position[0], position[1], position[2]]}>
+          <sphereGeometry
+            args={[props.radius * (1 + blackHoleProps.glowSize), 32, 32]}
+          />
+          <meshBasicMaterial
+            color={blackHoleProps.glowColor}
+            transparent={true}
+            opacity={0.8}
+          />
+        </mesh>
+      )}
+
       {selected && (
         <Html
           position={[position[0], position[1] + props.radius + 1, position[2]]}
